@@ -62,6 +62,7 @@ The loop sleeps for `BATCH_INTERVAL_SECONDS` (default: 30) and starts again from
 
 ## Grid Topology
 
+![Grid topology](https://github.com/EdidiongEsu/electrical_grid/blob/main/img/grid_topology.svg)
 ```
 5 Transformers
 └── 10 Meters each → 50 Meters total
@@ -145,6 +146,8 @@ Written only when an outage starts or ends — **zero to a few rows per batch**.
 ## Outage Simulation Logic
 
 Each batch, every **online** transformer independently has a 3% chance of going offline.
+
+![Outage trip and recovery flow](https://github.com/EdidiongEsu/electrical_grid/blob/main/img/outage_trip_recovery_flow.svg)
 
 ```
 Batch N+0  →  Transformer trips  →  status = "offline", breaker_trip event logged
