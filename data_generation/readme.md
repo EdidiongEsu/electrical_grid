@@ -6,11 +6,11 @@
 
 ## What This Notebook Does
 
-This notebook is a **streaming data generator** for a simulated electrical grid. It acts as a fake IoT source — endlessly creating realistic readings from smart meters and transformers, then writing them to a data lake in Delta format. Think of it as a synthetic sensor stream you can run on Databricks to build and test downstream pipelines without needing real hardware.
+This notebook is a **streaming data generator** for a simulated electrical grid. It acts as a fake IoT source, endlessly creating realistic readings from smart meters and transformers, then writing them to a data lake in Delta format. Think of it as a synthetic sensor stream you can run on Databricks to build and test downstream pipelines without needing real hardware.
 
 The simulation has three moving parts: **50 smart meters**, **5 transformers** (each serving 10 meters), and a **grid events log**. Every 30 seconds, a new batch fires. Meters report voltage, current, power draw, and energy consumed. Transformers report their aggregate load and online/offline status. And when something goes wrong — a breaker trips — that event gets recorded separately.
 
-The most interesting part is the **outage logic**. Each batch, every transformer has a small random chance (3%) of going offline. When it does, all 10 meters behind it immediately report zero voltage and current, and a `breaker_trip` event is logged. The transformer stays offline for up to 3 batches, then automatically recovers with a `breaker_reclose` event — mimicking a real auto-recloser on a distribution grid.
+The most interesting part is the **outage logic**. Each batch, every transformer has a small random chance (3%) of going offline. When it does, all 10 meters behind it immediately report zero voltage and current, and a `breaker_trip` event is logged. The transformer stays offline for up to 3 batches, then automatically recovers with a `breaker_reclose` event, mimicking a real auto-recloser on a distribution grid.
 
 Each batch also simulates **event-time latency**: meter and transformer readings are timestamped slightly behind the actual batch time (up to 20 seconds), reflecting real-world sensor delays. This makes the data suitable for testing late-arriving event handling in streaming pipelines.
 
@@ -47,7 +47,7 @@ For each of the 5 transformers:
 
 ### 5. Write to Delta Lake
 
-Three separate writes happen at the end of each batch:
+Three separate writes to the volumes below happen at the end of each batch:
 - Meter records → `/meters/`
 - Transformer records → `/transformers/`
 - Event records → `/grid_events/` (only if events occurred this batch)
@@ -80,7 +80,7 @@ Meter-to-transformer assignment: ((meter_id - 1) % TRANSFORMER_COUNT) + 1
 
 ## Output — Delta Lake Landing Zone
 
-All data is written in **append mode** to the following Delta Lake paths:
+All data is written in **append mode** to the following Delta Lake paths in the electrical stream volume:
 
 ```
 /Volumes/electrical_grid/00_landing_zone/electrical_stream/
