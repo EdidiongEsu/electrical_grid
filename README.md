@@ -80,6 +80,16 @@ Data is generated synthetically by the simulator notebook `000_generate_electric
 | Event-time latency | Up to 20 sec | Simulated sensor delay behind batch time |
 
 ---
+### Gold Layer – Final Tables
+5 production-ready tables powering all dashboards, DBSQL queries, and the AI Genie Bot. This is in the schema `electrical_grid.03_gold`. A more detailed breakdown of the data structure are highlighed [here](https://github.com/EdidiongEsu/electrical_grid/edit/main/lakeflow_pipeline/readme.md#gold-layer--electrical_grid03_gold)
+ 
+| Table | Description |
+|---|---|
+| `gold_area_demand` | 15-min geo-tagged demand per transformer — load kW, apparent load kVA, load %, headroom, avg voltage and power factor |
+| `gold_billing_summary` | Daily energy consumption and estimated cost per meter using NERC SRT tariff band rates (₦) |
+| `gold_billing_by_area` | Daily billing aggregated by area and service band — total kWh, total cost (₦), active meter count |
+| `gold_outage_log` | One row per outage — trip/reclose event pair with duration in minutes and full location context |
+| `gold_transformer_health` | 15-min windowed transformer health — avg/peak load %, avg/peak load kW, offline minutes, uptime % |
  
  
 ## How to Reproduce
