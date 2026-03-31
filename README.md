@@ -33,7 +33,7 @@ Raw streaming data lands in **Delta Lake volumes** under a Unity Catalog landing
 
 ## Data Architecture (Medallion)
 
-![Architecture diagram](./img/archi_diagram.gif)
+![Architecture diagram](./img/architectural_diagram.gif)
 
 ### Medallion Layers & Data Flow
 
