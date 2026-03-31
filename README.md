@@ -7,7 +7,9 @@
 - [Project Architecture (Medallion)](#data-architecture-medallion)
 - [Source Dataset](#source-dataset)
 - [Gold Layer – Final Tables](#gold-layer--final-tables)
-- [How to Reproduce](#how-to-reproduce)
+- [How to Reproduce (long section)](#how-to-reproduce)
+- [BI Dashboard](#bi-dashboard)
+- [AI Genie Bot](#ai-genie-bot) 
 
 ---
 
@@ -172,10 +174,9 @@ Verify all 13 tables have been created across `01_bronze`, `02_silver`, and `03_
 - Open **Databricks SQL** → **Query Editor**
 - Select the `electrical_grid` catalog and begin querying Gold tables. You can check for count in the tables. Additionally, you can refer to the sql script [here](https://github.com/EdidiongEsu/electrical_grid/tree/main/bi_dashboard) for some datasets sql script to try.
   You are then set to setup the BI dashboard and AI Genie bot.
+
  
-```
- 
-### 8. Set Up AI/BI Dashboard
+## BI Dashboard
  
 - In Databricks → **AI/BI** → **New Dashboard**
 - Connect to your Gold tables in `electrical_grid.03_gold`
@@ -184,11 +185,11 @@ Verify all 13 tables have been created across `01_bronze`, `02_silver`, and `03_
   - Outage frequency and duration trends by area (from `gold_outage_log`)
   - Daily energy cost by area and service band (from `gold_billing_by_area`)
   - Transformer uptime % over time (from `gold_transformer_health`)
- 
+- You can refer [here]() for more dashboards used
 ![AI/BI Dashboard](./img/dashboard.png)
  
-### 9. AI Genie Bot (Optional)
- 
+## AI Genie Bot
+
 - In Databricks → **AI/BI** → **Genie**
 - Connect Genie to schema `electrical_grid.03_gold`
 - Ask natural language questions like:
@@ -201,10 +202,3 @@ Verify all 13 tables have been created across `01_bronze`, `02_silver`, and `03_
  
 ---
  
-## Dependencies
- 
-- Databricks Runtime with PySpark and Delta Lake
-- Unity Catalog enabled workspace
-- Lakeflow Declarative Pipelines (Delta Live Tables)
-- Databricks SQL warehouse
-- AI/BI Dashboards and Genie (optional)
