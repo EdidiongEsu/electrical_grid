@@ -52,6 +52,7 @@ The pipeline follows a clean **Bronze → Silver → Gold** medallion pattern in
 
 ## Source Dataset
 
+For a more teailed breakdown of how the data generator works please [click here](https://github.com/EdidiongEsu/electrical_grid/tree/main/data_generation).
 Data is generated synthetically by the simulator notebook `000_generate_electrical_data.ipynb`. It writes to the following **Unity Catalog Delta Lake volumes** every 30 seconds:
 
 ```
