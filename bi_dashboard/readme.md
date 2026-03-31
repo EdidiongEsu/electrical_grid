@@ -7,10 +7,10 @@ Refer to main [readme](https://github.com/EdidiongEsu/electrical_grid/tree/main?
 ![Viz_1](https://github.com/EdidiongEsu/electrical_grid/blob/main/img/Page1_whiteviz.png)
 
 ### Page 2
-![Viz_1](https://github.com/EdidiongEsu/electrical_grid/blob/main/img/Page2_whiteviz.png)
+![Viz_2](https://github.com/EdidiongEsu/electrical_grid/blob/main/img/Page2_whiteviz.png)
 
 ### All Dashboards
-![Viz_1](https://github.com/EdidiongEsu/electrical_grid/blob/main/img/FullPage_white.png)
+![All Viz](https://github.com/EdidiongEsu/electrical_grid/blob/main/img/FullPage_white.png)
 
 ## Black Background
-![Viz_1](https://github.com/EdidiongEsu/electrical_grid/blob/main/img/Viz_black_all.png)
+![Black_Viz](https://github.com/EdidiongEsu/electrical_grid/blob/main/img/Viz_black_all.png)
