@@ -52,7 +52,7 @@ The pipeline follows a clean **Bronze → Silver → Gold** medallion pattern in
 
 ## Source Dataset
 
-For a more teailed breakdown of how the data generator works please [click here](https://github.com/EdidiongEsu/electrical_grid/tree/main/data_generation).
+For a more detailed breakdown of how the data generator works please [click here](https://github.com/EdidiongEsu/electrical_grid/tree/main/data_generation).
 Data is generated synthetically by the simulator notebook `000_generate_electrical_data.ipynb`. It writes to the following **Unity Catalog Delta Lake volumes** every 30 seconds:
 
 ```
@@ -81,7 +81,7 @@ Data is generated synthetically by the simulator notebook `000_generate_electric
 
 ---
 ### Gold Layer – Final Tables
-5 production-ready tables powering all dashboards, DBSQL queries, and the AI Genie Bot. This is in the schema `electrical_grid.03_gold`. A more detailed breakdown of the data structure are highlighed [here](https://github.com/EdidiongEsu/electrical_grid/tree/main/lakeflow_pipeline)
+5 production-ready tables powering all dashboards, DBSQL queries, and the AI Genie Bot. This is in the schema `electrical_grid.03_gold`. A more detailed breakdown of all data structure is highlighed [here](https://github.com/EdidiongEsu/electrical_grid/tree/main/lakeflow_pipeline)
  
 | Table | Description |
 |---|---|
@@ -100,7 +100,7 @@ Follow the steps below to recreate the environment.
  
 ### 1. Set Up Databricks Workspace
  
-- Go to [https://databricks.com](https://databricks.com) and sign in
+- Go to [https://databricks.com](https://databricks.com) and sign in or create a free account if you do not have one
 - Ensure your workspace has **Unity Catalog** enabled
 - You will need access to: Notebooks, Delta Live Tables / Lakeflow, DBSQL, and AI/BI Dashboards
  
@@ -120,7 +120,8 @@ Volumes:
  
 - Go to **Data** → **Unity Catalog** → create catalog `electrical_grid`
 - Create schemas: `00_landing_zone`, `01_bronze`, `02_silver`, `03_gold`
-- Inside `00_landing_zone`, create a **Managed Volume** named `electrical_stream`
+- Inside `00_landing_zone`, create a **Managed Volume** named `electrical_stream` then create directories `meters`, `transformers` and `grid_events`
+  ![createvolume](./img/create_volumes.png)
  
 ### 3. Run the Data Generator
  
@@ -138,61 +139,41 @@ Batch written at 2024-11-01T10:30:00+00:00
  
 ### 4. Create the Lakeflow Declarative Pipeline
  
-- In your workspace → **New** → **Pipeline** (Lakeflow / Delta Live Tables)
+- In your workspace → **New** → **Jobs & Pipelines**  → **ETL pipeline** 
 - Name the pipeline: `electrical_grid_pipeline`
 - Set the pipeline mode to **Continuous** for real-time streaming
  
-Connect the pipeline notebooks in order:
+Connect the pipeline python scripts in order:
  
-| Notebook | Layer | Tables created |
+| Folder | Layer | Tables created |
 |---|---|---|
-| `001_bronze.ipynb` | Bronze | `bronze_meters`, `bronze_transformers`, `bronze_grid_events` |
-| `002_silver.ipynb` | Silver | `silver_fact_meters`, `silver_fact_transformers`, `silver_fact_grid_events`, `silver_dim_locations`, `silver_dim_tariffs` |
-| `003_gold.ipynb` | Gold | `gold_area_demand`, `gold_billing_summary`, `gold_billing_by_area`, `gold_outage_log`, `gold_transformer_health` |
- 
-![Lakeflow pipeline](./img/lakeflow_pipeline.png)
- 
-### 5. Configure the Pipeline
- 
-In the pipeline settings:
- 
-- **Storage location**: point to your Unity Catalog (e.g. `electrical_grid.pipeline_storage`)
-- **Target schema**: tables are written directly to `electrical_grid.01_bronze`, `02_silver`, `03_gold` as declared in each notebook
-- **Cluster**: use a cluster with Photon enabled for best Delta streaming performance
- 
+| `001_bronze` | Bronze | `bronze_meters`, `bronze_transformers`, `bronze_grid_events` |
+| `002_silver` | Silver | `silver_fact_meters`, `silver_fact_transformers`, `silver_fact_grid_events`, `silver_dim_locations`, `silver_dim_tariffs` |
+| `003_gold` | Gold | `gold_area_demand`, `gold_billing_summary`, `gold_billing_by_area`, `gold_outage_log`, `gold_transformer_health` |
+
+Ensure to clone the python scripts [here](https://github.com/EdidiongEsu/electrical_grid/tree/main/lakeflow_pipeline) in the different folders and upload to your project.
+
+<p align="center">
+    <img src="https://github.com/EdidiongEsu/electrical_grid/blob/main/img/lakeflow_structure.png">
+</p>
+
+
 ### 6. Run the Pipeline
  
 - Click **Start** to trigger the pipeline
-- Wait for all three layers to complete successfully
+- Wait for all three layers to complete successfully. You should see resources loading and a new pipeline graph (DAG) being created like in the image below:
  
-![Pipeline run](./img/pipeline_run.png)
+![Pipeline run](./img/pipeline_running.png)
  
-Verify all 13 tables have been created across `01_bronze`, `02_silver`, and `03_gold` in Unity Catalog.
+Verify all 13 tables have been created across `01_bronze`, `02_silver`, and `03_gold` in Unity Catalog. 
  
 ### 7. Connect to Databricks SQL
  
 - Open **Databricks SQL** → **Query Editor**
-- Select the `electrical_grid` catalog and begin querying Gold tables:
+- Select the `electrical_grid` catalog and begin querying Gold tables. You can check for count in the tables. Additionally, you can refer to the sql script [here](https://github.com/EdidiongEsu/electrical_grid/tree/main/bi_dashboard) for some datasets sql script to try.
+  You are then set to setup the BI dashboard and AI Genie bot.
  
-```sql
--- Transformers approaching capacity
-SELECT transformer_id, area_name, service_band, avg_load_pct, peak_load_pct, uptime_pct
-FROM electrical_grid.03_gold.gold_transformer_health
-WHERE window_start >= dateadd(HOUR, -1, current_timestamp())
-ORDER BY peak_load_pct DESC;
- 
--- Daily billing by area
-SELECT date, area_name, service_band, total_kwh, total_cost_naira, active_meters
-FROM electrical_grid.03_gold.gold_billing_by_area
-ORDER BY date DESC, total_cost_naira DESC;
- 
--- Recent outages with duration
-SELECT transformer_id, area_name, outage_start, duration_minutes
-FROM electrical_grid.03_gold.gold_outage_log
-ORDER BY outage_start DESC;
 ```
- 
-![DBSQL query](./img/dbsql_query.png)
  
 ### 8. Set Up AI/BI Dashboard
  
