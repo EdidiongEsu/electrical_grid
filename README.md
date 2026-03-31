@@ -1,6 +1,7 @@
 # End-to-End Data Engineering of a Real-Time Electrical Grid Streaming Pipeline on Databricks
 
 ## Navigation / Quick Access
+Quickly move to the section you are interested in by clicking on the appropriate link:
 
 - [Overview](#overview)
 - [Project Goal](#project-goal)
@@ -185,20 +186,26 @@ Verify all 13 tables have been created across `01_bronze`, `02_silver`, and `03_
   - Outage frequency and duration trends by area (from `gold_outage_log`)
   - Daily energy cost by area and service band (from `gold_billing_by_area`)
   - Transformer uptime % over time (from `gold_transformer_health`)
-- You can refer [here]() for more dashboards used
-![AI/BI Dashboard](./img/dashboard.png)
+- You can refer [here](https://github.com/EdidiongEsu/electrical_grid/tree/main/bi_dashboard) for more dashboards used
+
+![AI/BI Dashboard](./img/FullPage_white.png)
  
 ## AI Genie Bot
 
 - In Databricks → **AI/BI** → **Genie**
 - Connect Genie to schema `electrical_grid.03_gold`
-- Ask natural language questions like:
+![AI Genie Bot](./img/create_genie.png)
+
+- Then Ask natural language questions like:
   - *"Which transformer had the most outages this week?"*
   - *"What is the total energy cost for Lekki this month?"*
-  - *"Show transformers with uptime below 95% in the last 24 hours"*
-  - *"Which service band has the highest average daily consumption?"*
  
-![AI Genie Bot](./img/genie_bot.png)
- 
----
+![AI Genie Bot](./img/genie_space_snap3.png)
+
+- See [here](https://github.com/EdidiongEsu/electrical_grid/tree/main/ai_genie) to see more usage of genie to ask questins about the data.
+
+## Contact
+Please reach out to me on [LinkedIn](https://www.linkedin.com/in/edidiong-esu-1942a2129/) for thoughts and/or issues encountered during the reproduction of this project. Let's chat! :star:.
+
+**Happy Coding!** :computer:
  
