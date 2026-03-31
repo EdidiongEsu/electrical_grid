@@ -93,8 +93,9 @@ Data is generated synthetically by the simulator notebook `000_generate_electric
 | `gold_billing_by_area` | Daily billing aggregated by area and service band — total kWh, total cost (₦), active meter count |
 | `gold_outage_log` | One row per outage — trip/reclose event pair with duration in minutes and full location context |
 | `gold_transformer_health` | 15-min windowed transformer health — avg/peak load %, avg/peak load kW, offline minutes, uptime % |
- 
- 
+
+---
+
 ## How to Reproduce
  
 This project uses a **PySpark simulator** to generate streaming data into Delta Lake, and **Lakeflow Declarative Pipelines** to process it through the medallion layers inside Databricks.
