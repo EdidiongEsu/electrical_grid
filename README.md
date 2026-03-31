@@ -81,7 +81,7 @@ Data is generated synthetically by the simulator notebook `000_generate_electric
 
 ---
 ### Gold Layer – Final Tables
-5 production-ready tables powering all dashboards, DBSQL queries, and the AI Genie Bot. This is in the schema `electrical_grid.03_gold`. A more detailed breakdown of the data structure are highlighed [here](https://github.com/EdidiongEsu/electrical_grid/edit/main/lakeflow_pipeline/readme.md#gold-layer--electrical_grid03_gold)
+5 production-ready tables powering all dashboards, DBSQL queries, and the AI Genie Bot. This is in the schema `electrical_grid.03_gold`. A more detailed breakdown of the data structure are highlighed [here](https://github.com/EdidiongEsu/electrical_grid/tree/main/lakeflow_pipeline)
  
 | Table | Description |
 |---|---|
