@@ -4,7 +4,7 @@
 
 ---
 
-## What This Notebook Does
+## What this Notebook Does
 
 This notebook is a **streaming data generator** for a simulated electrical grid. It acts as a fake IoT source, endlessly creating realistic readings from smart meters and transformers, then writing them to a data lake in Delta format. Think of it as a synthetic sensor stream you can run on Databricks to build and test downstream pipelines without needing real hardware.
 
