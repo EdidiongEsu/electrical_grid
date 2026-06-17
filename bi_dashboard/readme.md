@@ -1,5 +1,5 @@
 # AI_BI Dashboard
-To use the bi dashboard, you will have to create datasets using SQL. Chheck the sql script here to see some datasets created for the BO dashoa=board.
+To use the bi dashboard, you will have to create datasets using SQL. Check the sql script here to see some datasets created for the BO dashboard.
 Refer to main [readme](https://github.com/EdidiongEsu/electrical_grid/tree/main?tab=readme-ov-file#bi-dashboard) to see how to setup the dashboards.
 
 ## White Background
